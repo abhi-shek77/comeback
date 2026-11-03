@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from './Icons'
+import { fetchStudySpaces, saveStudySpaces, type StudySpaceRecord } from '../lib/supabase'
 
 const presets = [5, 15, 25]
 const focusQuotes = [
@@ -73,7 +74,7 @@ function youtubeVideoId(url: string) {
   }
 }
 
-export function FocusScreen({ initialMinutes, initialStudySpaceId, onStudySpaceOpened, onBack, onSessionComplete }: { initialMinutes: number; initialStudySpaceId: string | null; onStudySpaceOpened: () => void; onBack: () => void; onSessionComplete: (minutes: number) => void }) {
+export function FocusScreen({ userId, canImportLocal, initialMinutes, initialStudySpaceId, onStudySpaceOpened, onBack, onSessionComplete }: { userId: string | null; canImportLocal: boolean; initialMinutes: number; initialStudySpaceId: string | null; onStudySpaceOpened: () => void; onBack: () => void; onSessionComplete: (minutes: number, topic: string) => void }) {
   const [minutes, setMinutes] = useState(initialMinutes)
   const [secondsLeft, setSecondsLeft] = useState(initialMinutes * 60)
   const [running, setRunning] = useState(false)
@@ -84,6 +85,7 @@ export function FocusScreen({ initialMinutes, initialStudySpaceId, onStudySpaceO
   const lastQuoteMilestone = useRef(0)
   const [workspaceTab, setWorkspaceTab] = useState<'focus' | 'study'>('focus')
   const [workspaceLibrary, setWorkspaceLibrary] = useState<WorkspaceLibrary>(loadWorkspaceLibrary)
+  const syncedUserId = useRef<string | null>(null)
   const workspace = workspaceLibrary.lessons.find((lesson) => lesson.id === workspaceLibrary.activeId) ?? workspaceLibrary.lessons[0]
   const [activeTool, setActiveTool] = useState<WorkspaceTool>('notes')
   const [sessionWorkspaceId, setSessionWorkspaceId] = useState<string | null>(null)
@@ -112,7 +114,7 @@ export function FocusScreen({ initialMinutes, initialStudySpaceId, onStudySpaceO
     } else {
       setCompletedStudySession(null)
     }
-    onSessionComplete(minutes)
+    onSessionComplete(minutes, sessionWorkspaceId ? sessionTopic : topic)
   }, [secondsLeft, running, minutes, onSessionComplete, sessionWorkspaceId, sessionTopic])
 
   useEffect(() => {
@@ -140,6 +142,68 @@ export function FocusScreen({ initialMinutes, initialStudySpaceId, onStudySpaceO
       // The workspace remains usable for this session if browser storage is unavailable.
     }
   }, [workspaceLibrary])
+
+  useEffect(() => {
+    if (!userId) {
+      syncedUserId.current = null
+      return
+    }
+    let active = true
+    syncedUserId.current = null
+    void fetchStudySpaces(userId).then(async (remote) => {
+      if (!active || !remote) return
+      if (remote.length) {
+        const lessons: WorkspaceData[] = remote.map((space: StudySpaceRecord) => ({
+          id: space.id,
+          topic: space.topic,
+          youtubeUrl: space.youtube_url,
+          notes: space.notes,
+          recall: space.recall,
+          next: space.next_step,
+          completedSteps: space.completed_steps ?? [],
+          focusedMinutes: space.focused_minutes,
+        }))
+        setWorkspaceLibrary((current) => ({ lessons, activeId: lessons.some((lesson) => lesson.id === current.activeId) ? current.activeId : lessons[0].id }))
+      } else {
+        const localLessons = canImportLocal ? workspaceLibrary.lessons : [createWorkspace()]
+        if (!canImportLocal) setWorkspaceLibrary({ lessons: localLessons, activeId: localLessons[0].id })
+        await saveStudySpaces(userId, localLessons.map((lesson) => ({
+          id: lesson.id,
+          topic: lesson.topic,
+          youtube_url: lesson.youtubeUrl,
+          notes: lesson.notes,
+          recall: lesson.recall,
+          next_step: lesson.next,
+          completed_steps: lesson.completedSteps,
+          focused_minutes: lesson.focusedMinutes,
+        })))
+      }
+      if (active) syncedUserId.current = userId
+    }).catch(() => {
+      // The local workspace remains available if cloud sync is temporarily unavailable.
+    })
+    return () => { active = false }
+  }, [userId, canImportLocal])
+
+  useEffect(() => {
+    if (!userId || syncedUserId.current !== userId) return
+    const spaces: StudySpaceRecord[] = workspaceLibrary.lessons.map((lesson) => ({
+      id: lesson.id,
+      topic: lesson.topic,
+      youtube_url: lesson.youtubeUrl,
+      notes: lesson.notes,
+      recall: lesson.recall,
+      next_step: lesson.next,
+      completed_steps: lesson.completedSteps,
+      focused_minutes: lesson.focusedMinutes,
+    }))
+    const timeout = window.setTimeout(() => {
+      void saveStudySpaces(userId, spaces).catch(() => {
+        // The device copy is still saved by the local-storage effect above.
+      })
+    }, 700)
+    return () => window.clearTimeout(timeout)
+  }, [userId, workspaceLibrary])
 
   useEffect(() => {
     if (!initialStudySpaceId) return

@@ -2,3 +2,7 @@ node_modules/
 dist/
 .npm-cache/
 *.tsbuildinfo
+.env*
+!.env.example
+.supabase-home/
+supabase/supabase/.temp/
