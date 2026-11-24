@@ -134,13 +134,13 @@ const goalLabels: Record<Goal, string> = {
 
 function Brand({ iconOnly = false }: { iconOnly?: boolean }) {
   return <div className="flex items-center gap-3">
-    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8B5CF6] text-white shadow-[0_6px_22px_rgba(139,92,246,.24)]"><Icon name="spark" size={17}/></span>
-    {!iconOnly && <span className="text-[17px] font-semibold tracking-[-.04em]">comeback<span className="text-[#8B5CF6]">.</span></span>}
+    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7657C5] text-white shadow-[0_6px_22px_rgba(118,87,197,.15)]"><Icon name="spark" size={17}/></span>
+    {!iconOnly && <span className="text-[17px] font-semibold tracking-[-.04em]">comeback<span className="text-[#7657C5]">.</span></span>}
   </div>
 }
 
 function Navigation({ screen, user, onNavigate, onAccount }: { screen: AppScreen; user: User | null; onNavigate: (screen: AppScreen) => void; onAccount: () => void }) {
-  const navButton = (item: typeof navItems[number]) => <button key={item.screen} onClick={() => onNavigate(item.screen)} className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[13px] transition-colors ${screen === item.screen ? 'bg-[#8B5CF6]/[.14] font-medium text-[#C7B4FF]' : 'text-[#9690A1] hover:bg-white/[.045] hover:text-[#E9E6EF]'}`}><Icon name={item.icon} size={17}/>{item.label}</button>
+  const navButton = (item: typeof navItems[number]) => <button key={item.screen} onClick={() => onNavigate(item.screen)} className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[13px] transition-colors ${screen === item.screen ? 'bg-[#7657C5]/[.14] font-medium text-[#B1A2D5]' : 'text-[#9690A1] hover:bg-white/[.045] hover:text-[#E9E6EF]'}`}><Icon name={item.icon} size={17}/>{item.label}</button>
   const profileName = user?.email ?? 'Your comeback'
   const profileDescription = user ? 'Account & sync settings' : 'Sign in to sync progress'
   const profileInitial = user?.email?.slice(0, 1).toUpperCase() ?? 'Y'
@@ -149,24 +149,24 @@ function Navigation({ screen, user, onNavigate, onAccount }: { screen: AppScreen
       <div className="px-2"><Brand/></div>
       <div className="mt-11 px-3 text-[10px] font-semibold uppercase tracking-[.17em] text-[#6E6879]">Your space</div>
       <nav className="mt-3 space-y-1">{navItems.map(navButton)}</nav>
-      <div className="mt-auto rounded-2xl border border-[#8B5CF6]/15 bg-[#8B5CF6]/[.065] p-4">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8B5CF6]/15 text-[#BFAAFF]"><Icon name="spark" size={15}/></span>
+      <div className="mt-auto rounded-2xl border border-[#7657C5]/15 bg-[#7657C5]/[.065] p-4">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#7657C5]/15 text-[#A99BCF]"><Icon name="spark" size={15}/></span>
         <div className="mt-3 text-sm font-medium">You’re finding your way.</div><p className="mt-1.5 text-xs leading-5 text-[#9690A1]">Small steps are still steps forward.</p>
       </div>
-      <button type="button" onClick={onAccount} aria-label="Open account and sync settings" className="mt-5 flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition hover:bg-white/[.045] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B5CF6]"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#302A3C] text-xs font-semibold text-[#D0C3E9]">{profileInitial}</span><span className="min-w-0 flex-1"><span className="block truncate text-xs font-medium text-[#E4E0E9]">{profileName}</span><span className="mt-0.5 block truncate text-[10px] text-[#817B8F]">{profileDescription}</span></span><span aria-hidden="true" className="text-[#817B8F]">···</span></button>
+      <button type="button" onClick={onAccount} aria-label="Open account and sync settings" className="mt-5 flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition hover:bg-white/[.045] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7657C5]"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#292532] text-xs font-semibold text-[#D0C3E9]">{profileInitial}</span><span className="min-w-0 flex-1"><span className="block truncate text-xs font-medium text-[#E4E0E9]">{profileName}</span><span className="mt-0.5 block truncate text-[10px] text-[#817B8F]">{profileDescription}</span></span><span aria-hidden="true" className="text-[#817B8F]">···</span></button>
     </aside>
-    <nav aria-label="Main navigation" className="mobile-nav fixed inset-x-0 bottom-0 z-30 flex justify-around border-t border-white/[.08] bg-[#14121A]/95 px-2 pb-[max(env(safe-area-inset-bottom),10px)] pt-2 backdrop-blur-xl md:hidden">{navItems.map((item) => <button key={item.screen} onClick={() => onNavigate(item.screen)} className={`flex min-w-[68px] flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[9px] transition-colors ${screen === item.screen ? 'text-[#C7B4FF]' : 'text-[#817B8F]'}`}><Icon name={item.icon} size={18}/>{item.label}</button>)}</nav>
+    <nav aria-label="Main navigation" className="mobile-nav fixed inset-x-0 bottom-0 z-30 flex justify-around border-t border-white/[.08] bg-[#100F14]/95 px-2 pb-[max(env(safe-area-inset-bottom),10px)] pt-2 backdrop-blur-xl md:hidden">{navItems.map((item) => <button key={item.screen} onClick={() => onNavigate(item.screen)} className={`flex min-w-[68px] flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[9px] transition-colors ${screen === item.screen ? 'text-[#B1A2D5]' : 'text-[#817B8F]'}`}><Icon name={item.icon} size={18}/>{item.label}</button>)}</nav>
   </>
 }
 
 function MissedDayDialog({ onClose, onReset }: { onClose: () => void; onReset: () => void }) {
   return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 px-5 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
-    <section role="dialog" aria-modal="true" aria-labelledby="reset-title" className="w-full max-w-[430px] rounded-[24px] border border-white/[.09] bg-[#201C2B] p-6 shadow-[0_28px_100px_rgba(0,0,0,.55)] sm:p-8">
-      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F5B942]/[.12] text-[#F5B942]"><Icon name="sun" size={20}/></div>
-      <div className="mt-5 text-[10px] font-semibold uppercase tracking-[.16em] text-[#F5B942]">A gentle reset</div>
+    <section role="dialog" aria-modal="true" aria-labelledby="reset-title" className="w-full max-w-[430px] rounded-[24px] border border-white/[.09] bg-[#1A1821] p-6 shadow-[0_28px_100px_rgba(0,0,0,.55)] sm:p-8">
+      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#D2A146]/[.12] text-[#D2A146]"><Icon name="sun" size={20}/></div>
+      <div className="mt-5 text-[10px] font-semibold uppercase tracking-[.16em] text-[#D2A146]">A gentle reset</div>
       <h2 id="reset-title" className="mt-2 text-[25px] font-semibold leading-tight tracking-[-.045em]">A missed day doesn’t erase your progress.</h2>
       <p className="mt-3 text-sm leading-6 text-[#A3A3A8]">Your XP, level, and everything you’ve already done stay right where they are. Today can be a new day one.</p>
-      <div className="mt-7 flex flex-col-reverse gap-2 sm:flex-row"><button onClick={onClose} className="rounded-xl border border-white/[.09] px-4 py-3 text-sm font-medium text-[#B8B4C0] transition hover:bg-white/[.04] sm:flex-1">Maybe later</button><button onClick={onReset} className="rounded-xl bg-[#8B5CF6] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#9A70F7] sm:flex-1">Start fresh today</button></div>
+      <div className="mt-7 flex flex-col-reverse gap-2 sm:flex-row"><button onClick={onClose} className="rounded-xl border border-white/[.09] px-4 py-3 text-sm font-medium text-[#B8B4C0] transition hover:bg-white/[.04] sm:flex-1">Maybe later</button><button onClick={onReset} className="rounded-xl bg-[#7657C5] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8468CC] sm:flex-1">Start fresh today</button></div>
     </section>
   </div>
 }
@@ -417,16 +417,16 @@ function App() {
 
   const currentScreen = screen as AppScreen
   const lastStudySpace = getLastStudySpaceSummary()
-  return <div className="min-h-screen bg-[#0D0D12] text-[#F5F3FA]">
+  return <div className="min-h-screen bg-[#0B0A0F] text-[#F5F3FA]">
     <div className="flex min-h-screen">
       <Navigation screen={currentScreen} user={user} onNavigate={setScreen} onAccount={() => setShowAccount(true)}/>
       <main className={`min-w-0 flex-1 ${currentScreen === 'focus' ? 'pb-[84px] md:pb-3' : 'pb-[98px] md:pb-10'}`}>
-        <header className="sticky top-0 z-20 flex items-center justify-between border-b border-white/[.06] bg-[#0D0D12]/90 px-5 py-4 backdrop-blur-xl sm:px-8 lg:px-11">
-          <div className="flex items-center gap-3 md:hidden"><Brand iconOnly/><span className="text-[15px] font-semibold tracking-[-.04em]">comeback<span className="text-[#8B5CF6]">.</span></span></div>
+        <header className="sticky top-0 z-20 flex items-center justify-between border-b border-white/[.06] bg-[#0B0A0F]/90 px-5 py-4 backdrop-blur-xl sm:px-8 lg:px-11">
+          <div className="flex items-center gap-3 md:hidden"><Brand iconOnly/><span className="text-[15px] font-semibold tracking-[-.04em]">comeback<span className="text-[#7657C5]">.</span></span></div>
           <div className="hidden text-xs text-[#817B8F] md:block">Comeback <span className="mx-2 text-[#4F4A58]">/</span><span className="text-[#D7D3DF]">{navItems.find((item) => item.screen === currentScreen)?.label}</span></div>
-          <div className="flex items-center gap-3"><span className="hidden text-xs text-[#817B8F] sm:block">One step at a time</span><button onClick={() => setShowAccount(true)} className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[.1] bg-[#201C2B] text-[11px] font-semibold text-[#C7B4FF]" aria-label={user ? `Account: ${user.email}` : 'Sign in and sync'}>{user ? (user.email?.slice(0, 1).toUpperCase() ?? 'Y') : 'Y'}</button></div>
+          <div className="flex items-center gap-3"><span className="hidden text-xs text-[#817B8F] sm:block">One step at a time</span><button onClick={() => setShowAccount(true)} className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[.1] bg-[#1A1821] text-[11px] font-semibold text-[#B1A2D5]" aria-label={user ? `Account: ${user.email}` : 'Sign in and sync'}>{user ? (user.email?.slice(0, 1).toUpperCase() ?? 'Y') : 'Y'}</button></div>
         </header>
-        <div className={`mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-11 ${currentScreen === 'focus' ? 'pt-5 sm:pt-6 lg:pt-4' : 'pt-8 sm:pt-10'}`}>
+        <div key={currentScreen} className={`page-transition mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-11 ${currentScreen === 'focus' ? 'pt-5 sm:pt-6 lg:pt-4' : 'pt-8 sm:pt-10'}`}>
           {currentScreen === 'dashboard' && <DashboardScreen goal={selectedGoal ? goalLabels[selectedGoal] : goalLabels.study} dailyTarget={dailyTarget} preferredMinutes={preferredMinutes} xp={xp} level={level} streak={streak} sessions={sessions} focusHistory={focusHistory} quests={quests} lastStudySpace={lastStudySpace} onCompleteQuest={completeQuest} onFocus={() => setScreen('focus')} onContinueStudy={(id) => { setStudySpaceToOpen(id); setScreen('focus') }} onJourney={() => setScreen('journey')} onReset={() => setShowReset(true)}/>}
           {currentScreen === 'focus' && <FocusScreen userId={hydratedUserId} canImportLocal={canImportLocalForUser} initialMinutes={preferredMinutes} initialStudySpaceId={studySpaceToOpen} onStudySpaceOpened={() => setStudySpaceToOpen(null)} onBack={() => setScreen('dashboard')} onSessionComplete={completeFocusSession}/>}
           {currentScreen === 'journey' && <JourneyScreen xp={xp} level={level} streak={streak} longestStreak={longestStreak} sessions={sessions} focusHistory={focusHistory} recentSessions={recentFocusSessions} signedIn={Boolean(hydratedUserId)} sessionsLoading={focusSessionsLoading} quests={quests} onReset={() => setShowReset(true)} onFocus={() => setScreen('focus')}/>}
@@ -435,19 +435,19 @@ function App() {
     </div>
     {showReset && <MissedDayDialog onClose={() => setShowReset(false)} onReset={resetStreak}/>}
     {showAccount && <AccountDialog user={user} email={email} setEmail={setEmail} busy={authBusy} message={accountMessage} onClose={() => setShowAccount(false)} onSignIn={requestSignInLink} onSignOut={signOut}/>}
-    {notice && <div role="status" className="fixed bottom-24 left-1/2 z-40 -translate-x-1/2 rounded-full border border-[#8B5CF6]/30 bg-[#241D32] px-5 py-3 text-sm font-medium text-[#E8DDFF] shadow-xl md:bottom-7">{notice}</div>}
+    {notice && <div role="status" className="fixed bottom-24 left-1/2 z-40 -translate-x-1/2 rounded-full border border-[#7657C5]/30 bg-[#1F1A29] px-5 py-3 text-sm font-medium text-[#E8DDFF] shadow-xl md:bottom-7">{notice}</div>}
   </div>
 }
 
 function AccountDialog({ user, email, setEmail, busy, message, onClose, onSignIn, onSignOut }: { user: User | null; email: string; setEmail: (value: string) => void; busy: boolean; message: string; onClose: () => void; onSignIn: () => void; onSignOut: () => void }) {
   return <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 px-5 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
-    <section role="dialog" aria-modal="true" aria-labelledby="account-title" className="w-full max-w-[420px] rounded-[24px] border border-white/[.09] bg-[#201C2B] p-6 shadow-[0_28px_100px_rgba(0,0,0,.55)] sm:p-8">
+    <section role="dialog" aria-modal="true" aria-labelledby="account-title" className="w-full max-w-[420px] rounded-[24px] border border-white/[.09] bg-[#1A1821] p-6 shadow-[0_28px_100px_rgba(0,0,0,.55)] sm:p-8">
       <button onClick={onClose} className="float-right rounded-lg px-2 py-1 text-sm text-[#9690A1] hover:bg-white/[.05]" aria-label="Close">✕</button>
-      <div className="text-[10px] font-semibold uppercase tracking-[.16em] text-[#A78BFA]">Comeback account</div>
+      <div className="text-[10px] font-semibold uppercase tracking-[.16em] text-[#9887C7]">Comeback account</div>
       <h2 id="account-title" className="mt-2 text-[24px] font-semibold tracking-[-.045em]">Keep your progress with you.</h2>
       {!isSupabaseConfigured ? <p className="mt-3 text-sm leading-6 text-[#A3A3A8]">Account sync needs a Supabase project. Add its project URL and publishable key to <code className="text-[#D8CBFF]">.env</code> after setup; this demo continues saving on this device.</p> : user ? <><p className="mt-3 break-all text-sm text-[#D8CBFF]">{user.email}</p><p className="mt-2 text-xs leading-5 text-[#A3A3A8]">Progress and study spaces sync to your account.</p><button onClick={onSignOut} className="mt-6 w-full rounded-xl border border-white/[.09] px-4 py-3 text-sm font-medium text-[#B8B4C0] hover:bg-white/[.04]">Sign out</button></> : <>
         <p className="mt-3 text-sm leading-6 text-[#A3A3A8]">Enter your email and we’ll send a secure sign-in link. Your existing device progress will be copied to your account the first time.</p>
-        <form onSubmit={(event) => { event.preventDefault(); onSignIn() }} className="mt-5"><label htmlFor="account-email" className="mb-2 block text-xs text-[#B8B4C0]">Email address</label><input id="account-email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="w-full rounded-xl border border-white/[.09] bg-[#17151E] px-4 py-3 text-sm outline-none placeholder:text-[#706A7C] focus:border-[#8B5CF6]/60"/><button disabled={busy} className="mt-3 w-full rounded-xl bg-[#8B5CF6] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#9B70F8] disabled:opacity-50">{busy ? 'Sending…' : 'Email me a sign-in link'}</button></form>
+        <form onSubmit={(event) => { event.preventDefault(); onSignIn() }} className="mt-5"><label htmlFor="account-email" className="mb-2 block text-xs text-[#B8B4C0]">Email address</label><input id="account-email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="w-full rounded-xl border border-white/[.09] bg-[#14131A] px-4 py-3 text-sm outline-none placeholder:text-[#706A7C] focus:border-[#7657C5]/60"/><button disabled={busy} className="mt-3 w-full rounded-xl bg-[#7657C5] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8468CC] disabled:opacity-50">{busy ? 'Sending…' : 'Email me a sign-in link'}</button></form>
       </>}
       {message && <p role="status" className="mt-4 text-xs leading-5 text-[#C4BECE]">{message}</p>}
     </section>
